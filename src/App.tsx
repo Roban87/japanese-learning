@@ -1,5 +1,5 @@
 import { MainScreen } from './screens/main.screen';
-import './App.css';
+import './App.scss';
 
 function App() {
   return (

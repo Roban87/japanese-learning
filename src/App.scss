@@ -1,0 +1,109 @@
+@import './assets/murecho.scss';
+
+.App {
+  text-align: center;
+  background-color: #bff0e9;
+  min-height: 100vh;
+
+  h1 {
+    font-family: 'Murecho', sans-serif;
+    font-size: 34.18px;
+    line-height: 40px;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  h2 {
+    font-family: 'Murecho', sans-serif;
+    font-size: 27.34px;
+    line-height: 36px;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  h3 {
+    font-family: 'Murecho', sans-serif;
+    font-size: 21.88px;
+    line-height: 32px;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  h4 {
+    font-family: 'Murecho', sans-serif;
+    font-size: 17.5px;
+    line-height: 24px;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  h5 {
+    font-family: 'Murecho', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  p {
+    font-family: 'Murecho', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  span {
+    font-family: 'Murecho', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+  }
+
+  i {
+    font-family: 'MuMurecholish', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 0;
+  }
+
+  small {
+    font-family: 'Murecho', sans-serif;
+    font-size: 12.25px;
+    line-height: 16px;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+
+  .button {
+    height: 24px;
+    border: unset;
+    margin: 0 8px;
+    padding: 0 16px;
+    border-radius: 4px;
+  }
+
+  label {
+    font-family: 'Murecho', sans-serif;
+    font-size: 12.25px;
+    line-height: 16px;
+    font-weight: 300;
+  }
+
+  input {
+    font-family: 'Murecho', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 400;
+    border: none;
+    border-bottom: 1px solid #bebebe;
+    border-radius: 0;
+    padding: 0 8px;
+    background-color: transparent;
+    outline: none;
+
+    &:disabled {
+      background-color: transparent;
+    }
+  }
+}

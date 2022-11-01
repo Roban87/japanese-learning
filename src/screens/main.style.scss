@@ -1,5 +1,67 @@
 .MainScreen {
-  h1 {
-    color: blueviolet
+  padding: 40px 0;
+
+  h1,
+  h3 {
+    color: rgb(237, 71, 37);
+  }
+
+  .settings-wrapper {
+    padding: 24px 0;
+
+    .type-setting {
+      .type-setting-controls {
+        display: flex;
+        justify-content: center;
+
+        .type-setting-button {
+          background-color: #7897c6;
+
+          &.selected {
+            background-color: #0056c6;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .content-wrapper {
+    flex-direction: column;
+
+    .word-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+      height: 32px;
+
+      label {
+        text-align: left;
+        width: 120px;
+      }
+    }
+
+    .check-status {
+      margin-bottom: 16px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .control-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .pass-button {
+      background-color: #c03838;
+      color: #fff;
+    }
+
+    .new-word-button {
+      background-color: #00c652;
+      color: #fff;
+    }
   }
 }
