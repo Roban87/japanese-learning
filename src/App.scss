@@ -2,8 +2,9 @@
 
 .App {
   text-align: center;
-  background-color: #bff0e9;
   min-height: 100vh;
+  background-image: url('./assets/images/sakura.png');
+  background-size: 100%;
 
   h1 {
     font-family: 'Murecho', sans-serif;
@@ -75,8 +76,12 @@
     vertical-align: middle;
   }
 
+  .fw-600 {
+    font-weight: 600;
+  }
+
   .button {
-    height: 24px;
+    height: 32px;
     border: unset;
     margin: 0 8px;
     padding: 0 16px;

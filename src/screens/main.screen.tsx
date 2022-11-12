@@ -17,6 +17,8 @@ interface Word {
 const typeOptions = ['Magyar', 'Hiragana', 'Romaji'];
 
 export const MainScreen: React.FC = () => {
+  const [fileName, setFileName] = useState<string>('');
+
   const [dictionary, setDictionary] = useState<Word[]>([]);
   const [word, setWord] = useState<Word>({
     Magyar: '',
@@ -31,9 +33,12 @@ export const MainScreen: React.FC = () => {
   const [isAnswerPassed, setIsAnswerPassed] = useState<boolean>(false);
 
   const getDictionary = (event: any) => {
-    const files = event.target.files[0];
-    // const csv = require('../dictionary/szoszedet.csv');
-    Papa.parse(files, {
+    const file = event.target.files[0];
+
+    const name = file.name?.split('.')[0];
+    setFileName(name);
+
+    Papa.parse(file, {
       header: true,
       dynamicTyping: true,
       complete: (results: any) => {
@@ -89,123 +94,166 @@ export const MainScreen: React.FC = () => {
   useEffect(() => checkAnswer(), [answer]);
 
   return <div className="container MainScreen">
-    <div className="row">
-      <div className="col">
-        <h1>Nihon GO</h1>
-        <h3>szógyakorló</h3>
-      </div>
-    </div>
+    <div className="row justify-content-stretch wrapper">
+      <div className='col-2' />
 
-    <div className='row'>
-      <div className='col'>
-        <input accept='.csv' type="file" multiple={false} onChange={(event) => getDictionary(event)} />
-      </div>
-    </div>
+      <div className="col-18 content-main-wrapper">
+        <div>
+          <div className="row">
+            <div className="col">
+              <h1>Nihon GO</h1>
+              <h3>szógyakorló</h3>
+            </div>
+          </div>
 
-    <div className={'row settings-wrapper'}>
+          <div className={'row settings-wrapper'}>
 
-      <div className={'col type-setting'}>
+            <div className={'col type-setting'}>
 
-        <div className="row">
-          <div className="col">
-            <h5>Írásmód</h5>
+              <div className="row">
+                <div className="col">
+                  <h5>Írásmód</h5>
 
-            <div className={'type-setting-controls'}>
-              <button
-                onClick={() => lastClick !== 'Magyar' ? handleChangeOfTypeAndWord('Magyar') : null}
-                className={`button type-setting-button ${ lastClick === 'Magyar' ? 'selected' : '' }`}
-              >
-                <p>Magyar</p>
-              </button>
+                  <div className={'type-setting-controls'}>
+                    <button
+                      onClick={() => lastClick !== 'Magyar' ? handleChangeOfTypeAndWord('Magyar') : null}
+                      className={`button type-setting-button ${ lastClick === 'Magyar' ? 'selected' : '' }`}
+                    >
+                      <p>Magyar</p>
+                    </button>
 
-              <button
-                onClick={() => lastClick !== 'Hiragana' ? handleChangeOfTypeAndWord('Hiragana') : null}
-                className={`button type-setting-button ${ lastClick === 'Hiragana' ? 'selected' : '' }`}
-              >
-                <p>Hiragana</p>
-              </button>
+                    <button
+                      onClick={() => lastClick !== 'Hiragana' ? handleChangeOfTypeAndWord('Hiragana') : null}
+                      className={`button type-setting-button ${ lastClick === 'Hiragana' ? 'selected' : '' }`}
+                    >
+                      <p>Hiragana</p>
+                    </button>
 
-              <button
-                onClick={() => lastClick !== 'Romaji' ? handleChangeOfTypeAndWord('Romaji') : null}
-                className={`button type-setting-button ${ lastClick === 'Romaji' ? 'selected' : '' }`}
-              >
-                <p>Romaji</p>
-              </button>
+                    <button
+                      onClick={() => lastClick !== 'Romaji' ? handleChangeOfTypeAndWord('Romaji') : null}
+                      className={`button type-setting-button ${ lastClick === 'Romaji' ? 'selected' : '' }`}
+                    >
+                      <p>Romaji</p>
+                    </button>
 
-              <button
-                onClick={() => lastClick !== 'Random' ? handleChangeOfTypeAndWord('Random') : null}
-                className={`button type-setting-button ${ lastClick === 'Random' ? 'selected' : '' }`}
-              >
-                <p>Random</p>
-              </button>
+                    <button
+                      onClick={() => lastClick !== 'Random' ? handleChangeOfTypeAndWord('Random') : null}
+                      className={`button type-setting-button ${ lastClick === 'Random' ? 'selected' : '' }`}
+                    >
+                      <p>Random</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className={'row content-wrapper'}>
+
+            <div className={'col word-box'}>
+              <label htmlFor="Magyar" className={`${ type === 'Magyar' && 'active' }`}>Magyar</label>
+              <input type="text" id="Magyar"
+                disabled={!dictionary.length || type !== 'Magyar' || isAnswerPassed}
+                value={`${ !dictionary.length
+                  ? ''
+                  : type !== 'Magyar'
+                    ? word?.Magyar
+                    : answer }`}
+                onChange={(event) => handleAnswerChange(event)}
+              />
+            </div>
+
+            <div className={'col word-box'}>
+              <label htmlFor="Hiragana" className={`${ type === 'Hiragana' && 'active' }`}>Hiragana</label>
+              <input type="text" id="Hiragana"
+                disabled={!dictionary.length || type !== 'Hiragana' || isAnswerPassed}
+                value={`${ !dictionary.length
+                  ? ''
+                  : type !== 'Hiragana'
+                    ? word?.Hiragana
+                    : answer }`}
+                onChange={(event) => handleAnswerChange(event)}
+              />
+            </div>
+
+            <div className={'col word-box'}>
+              <label htmlFor="Romaji" className={`${ type === 'Romaji' && 'active' }`}>Romaji</label>
+              <input type="text" id="Romaji"
+                disabled={!dictionary.length || type !== 'Romaji' || isAnswerPassed}
+                value={`${ !dictionary.length
+                  ? ''
+                  : (type === 'Magyar') || (type === 'Hiragana' && (isAnswerPassed || isCorrect))
+                    ? word?.Romaji
+                    : type === 'Romaji'
+                      ? answer
+                      : '' }`}
+                onChange={(event) => handleAnswerChange(event)}
+              />
+            </div>
+
+            <div className={'check-status'}>
+              {
+                isCorrect === undefined
+                  ? null
+                  : isCorrect
+                    ? <Lottie
+                      animationData={checkmarkAnimation}
+                      loop={true}
+                      autoplay={true}
+                      style={{ width: 40, height: 40 }}
+                    />
+                    : <p>&#10060;</p>
+              }
+            </div>
+
+
+          </div>
+
+          <div className="row">
+            <div className='col'>
+
+              <div className="control-wrapper">
+                <button className="button control-button pass-button" onClick={() => showAnswer()}>
+                  <p>Passz! :(</p>
+                </button>
+
+                <button className="button control-button new-word-button" onClick={() => handleChangeOfTypeAndWord(lastClick)} >
+                  <p>Új szót kérek</p>
+                </button>
+              </div>
+
             </div>
           </div>
         </div>
-
       </div>
 
-    </div>
-
-    <div className={'row content-wrapper'}>
-
-      <div className={'col word-box'}>
-        <label htmlFor="Magyar">Magyar</label>
-        <input type="text" id="Magyar"
-          disabled={type !== 'Magyar' || isAnswerPassed}
-          value={`${ type !== 'Magyar' ? word?.Magyar : answer }`}
-          onChange={(event) => handleAnswerChange(event)}
-        />
-      </div>
-
-      <div className={'col word-box'}>
-        <label htmlFor="Hiragana">Hiragana</label>
-        <input type="text" id="Hiragana"
-          disabled={type !== 'Hiragana' || isAnswerPassed}
-          value={`${ type !== 'Hiragana' ? word?.Hiragana : answer }`}
-          onChange={(event) => handleAnswerChange(event)}
-        />
-      </div>
-
-      <div className={'col word-box'}>
-        <label htmlFor="Romaji">Romaji</label>
-        <input type="text" id="Romaji"
-          disabled={type !== 'Romaji' || isAnswerPassed}
-          value={`${ type !== 'Romaji' ? word?.Romaji : answer }`}
-          onChange={(event) => handleAnswerChange(event)}
-        />
-      </div>
-
-      <div className={'check-status'}>
-        {
-          isCorrect === undefined
-            ? null
-            : isCorrect
-              ? <Lottie
-                animationData={checkmarkAnimation}
-                loop={true}
-                autoplay={true}
-                style={{ width: 40, height: 40 }}
-              />
-              : <p>&#10060;</p>
-        }
-      </div>
-
-
-    </div>
-
-    <div className="row">
-      <div className='col'>
-
-        <div className="control-wrapper">
-          <button className="button control-button pass-button" onClick={() => showAnswer()}>
-            <p>Passz! :(</p>
-          </button>
-
-          <button className="button control-button new-word-button" onClick={() => handleChangeOfTypeAndWord(lastClick)} >
-            <p>Új szót kérek</p>
-          </button>
+      <div className='col-2'>
+        <div className='file-input-wrapper'>
+          <input
+            className={'file-input'}
+            accept='.csv, .xls, .xlsx, application/vnd.ms-excel, text/csv
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            type="file"
+            multiple={false}
+            onChange={(event) => getDictionary(event)}
+          />
+          <span className='fw-600'>Szótár hozzáadása</span>
+          <span>Kattints vagy húzd ide</span>
         </div>
 
+        {!!dictionary.length && <div className='mt-3'>
+          <p>
+            <span className='fw-600'>File: </span>
+            <span>{fileName}</span>
+          </p>
+
+          <p>
+            <span className='fw-600'>Szavak száma: </span>
+            <span>{dictionary.length}</span>
+          </p>
+        </div>}
       </div>
     </div>
 
